@@ -1,8 +1,8 @@
 import flask
 import sandra
-from App.config                   import Environment
-from App.bms_request_processor    import ResterRequestProcessor, ResterError
-from App.bms_rester_helper        import user, PermissionManager
+from project.config                   import Environment
+from project.bms_request_processor    import ResterRequestProcessor, ResterError
+from project.bms_rester_helper        import user, PermissionManager
 
 Environment = Environment()
 
@@ -18,10 +18,10 @@ def config(env):
 class BMSResterAPI():
 
 	SERVICE_MAP = {['service':  'bms_rester_api',
-                  'path':  'App.bms_rester_api',
-                  'url': '/',
-                  'description' : 'Book Management System (BMS) RESTer  Service'
-                  ]}
+                        'path':  'App.bms_rester_api',
+                        'url': '/',
+                        'description' : 'Book Management System (BMS) RESTer  Service'
+                       ]}
 
 	def __init__(self):
 	    pass
@@ -99,24 +99,24 @@ class BMSResterAPI():
 	@bms_rester_api.route('/addMembers/<string:env><dict:addMembers>, methods = ['GET',  'POST'])
 	@PermissionManager.login_required
 	def addMembers(env, newMemberInfo):
-        if  'addMember' in roleMapping[user['Type']] :	
-          with sandra.connect(env) as db:
-               memDict = db.read(memberDict)
-               member = newMemberInfo['Member']
-               memDict['member'] = newMemberInfo
-               db.write(memDict)
-	       return Rest.response(memDict)
+            if 'addMember' in roleMapping[user['Type']] :	
+                with sandra.connect(env) as db:
+                   memDict = db.read(memberDict)
+                   member = newMemberInfo['Member']
+                   memDict['member'] = newMemberInfo
+                   db.write(memDict)
+	           return Rest.response(memDict)
 
 	@bms_rester_api.route('/updateMembers/<string:env><dict:memberInfo>, methods = ['GET',  'POST'])
 	@PermissionManager.login_required
 	def updateMembers(env, memberInfo):
 	    if 'updateMember' in roleMapping[user['Type']] :	
                 with sandra.connect(env) as db:
-	            memDict = db.read(memberDict)
-		    member = memberInfo['Member']
-		    memDict['member'] = newMemberInfo
-		    db.write(memDict)
-	            return Rest.response(memDict)
+	           memDict = db.read(memberDict)
+		   member = memberInfo['Member']
+		   memDict['member'] = newMemberInfo
+		   db.write(memDict)
+	           return Rest.response(memDict)
 
 	@bms_rester_api.route('/removeMember/<string:env><string:member>, methods = ['GET',  'POST',  'DELETE'])
 	@PermissionManager.login_required
