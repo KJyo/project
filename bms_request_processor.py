@@ -29,7 +29,7 @@ class ResterRequestProcessor(object):
 		  return ResterRequestProcessor.__instance
 
 	@property
-	def pending_request(self):
+	def pending_status(self):
 	    return ResterRequestProcessor().__PENDING_STATUSES 
 
 	@property
