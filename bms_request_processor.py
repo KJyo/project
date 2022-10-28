@@ -58,8 +58,8 @@ class ResterRequestProcessor(object):
 	    ret = {requestId: 'proxy.request_id',
 		  status_url: url_for(.processRequestStatus, request_id = proxy.request_id),
 		  request: json_request() if echo_request else None}
-		  asynchronous.reactor.getThreadPool()
-		  asynchronous.reactor.callInThread(self.invoke_processor, proxy)
+	    tp = asynchronous.reactor.getThreadPool()
+	    asynchronous.reactor.callInThread(self.invoke_processor, proxy)
             if not tp.started:
 		tp.start()	 
 	    return ret
